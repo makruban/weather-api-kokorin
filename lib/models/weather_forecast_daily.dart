@@ -1,3 +1,5 @@
+import 'package:practice_weatherapi_kokorin/utilities/constants.dart';
+
 class WeatherForecast {
   City? city;
   String? cod;
@@ -18,9 +20,9 @@ class WeatherForecast {
     message = json["message"];
     cnt = json["cnt"];
     if (json["list"] != null) {
-      list = [];
+      list =[];
       json["list"].forEach((v) {
-        list?.add(WeatherList.fromJson(v));
+        list?.add(new WeatherList.fromJson(v));
       });
     }
   }
@@ -53,7 +55,7 @@ class WeatherList {
   int? deg;
   double? gust;
   int? clouds;
-  int? pop;
+  num? pop;
 
   WeatherList({
     this.dt,
@@ -75,7 +77,7 @@ class WeatherList {
     sunrise = json["sunrise"];
     sunset = json["sunset"];
     temp = json["temp"] != null ? Temp.fromJson(json["temp"]) : null;
-    feelsLike = json["feels_like"] != null ? Feels_like.fromJson(json["feelsLike"]) : null;
+    feelsLike = json["feels_like"] != null ? Feels_like.fromJson(json["feels_like"]) : null;
     pressure = json["pressure"];
     humidity = json["humidity"];
     if (json["weather"] != null) {
@@ -114,7 +116,9 @@ class WeatherList {
     map["pop"] = pop;
     return map;
   }
-
+  String getIconUrl() {
+    return Constants.WEATHER_IMAGES_URL + weather![0].icon! + '.png';
+  }
 }
 
 class Weather {
@@ -130,10 +134,10 @@ class Weather {
     this.icon});
 
   Weather.fromJson(dynamic json) {
-    id = json["id"].toDouble();
-    main = json["main"].toDouble();
-    description = json["description"].toDouble();
-    icon = json["icon"].toDouble();
+    id = json["id"];
+    main = json["main"];
+    description = json["description"];
+    icon = json["icon"];
   }
 
   Map<String, dynamic> toJson() {
@@ -151,7 +155,7 @@ class Feels_like {
   double? day;
   double? night;
   double? eve;
-  int? morn;
+  double? morn;
 
   Feels_like({
     this.day,
@@ -160,10 +164,10 @@ class Feels_like {
     this.morn});
 
   Feels_like.fromJson(dynamic json) {
-    day = json["day"].toDouble();
-    night = json["night"].toDouble();
-    eve = json["eve"].toDouble();
-    morn = json["morn"].toDouble();
+    day = json["day"];
+    night = json["night"];
+    eve = json["eve"];
+    morn = json["morn"];
   }
 
   Map<String, dynamic> toJson() {
@@ -194,12 +198,12 @@ class Temp {
     this.morn});
 
   Temp.fromJson(dynamic json) {
-    day = json["day"];
-    min = json["min"];
-    max = json["max"];
-    night = json["night"];
-    eve = json["eve"];
-    morn = json["morn"];
+    day = json["day"].toDouble();
+    min = json["min"].toDouble();
+    max = json["max"].toDouble();
+    night = json["night"].toDouble();
+    eve = json["eve"].toDouble();
+    morn = json["morn"].toDouble();
   }
 
   Map<String, dynamic> toJson() {

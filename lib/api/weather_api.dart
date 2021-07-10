@@ -14,9 +14,11 @@ class WeatherApi{
   var uri = Uri.https(Constants.WEATHER_BASE_URL_DOMAIN, Constants.WEATHER_FORECAST_PATH, queryParametrs);
   log('request: ${uri.toString()}');
   http.Response response = await http.get(uri);
-// await Future.delayed(Duration(seconds: 15));
+  String stResponse = response.body;
+  var weather = jsonDecode(stResponse)['list'][6]['temp']['day'];
+
+  print('weather: $weather');
   print('response: ${response.body}');
-   // throw Exception ('Error response');
   if (response.statusCode == 200){
    return WeatherForecast.fromJson(json.decode(response.body));
   } else {
