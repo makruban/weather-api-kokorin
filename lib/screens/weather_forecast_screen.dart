@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:practice_weatherapi_kokorin/api/weather_api.dart';
 import 'package:practice_weatherapi_kokorin/models/weather_forecast_daily.dart';
+import 'package:practice_weatherapi_kokorin/screens/city_screen.dart';
 import 'package:practice_weatherapi_kokorin/widgets/bottom_list_view.dart';
 import 'package:practice_weatherapi_kokorin/widgets/city_view.dart';
 import 'package:practice_weatherapi_kokorin/widgets/detail_view.dart';
@@ -19,6 +20,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
   Future<WeatherForecast>? forecastObject;
   String _cityName = 'London';
 
+  // String _cityName;
   void initState() {
     super.initState();
     forecastObject =
@@ -42,9 +44,19 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.location_city),
-          )
+            onPressed: () async {
+              var tappedName = await Navigator.push(context, MaterialPageRoute(builder: (context){return CityScreen();}));
+              if(tappedName != null){
+                setState(() {
+                  _cityName = tappedName;
+                forecastObject = WeatherApi().fetchWeatherForecastWithCity(cityName: _cityName);
+
+                });
+
+              }
+            },
+            icon: Icon(Icons.location_city, color: Colors.white,),
+          ),
         ],
       ),
       body: ListView(
